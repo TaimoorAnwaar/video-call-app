@@ -1,0 +1,25 @@
+{
+  "name": "agora-video-call",
+  "version": "1.0.0",
+  "description": "Simple Agora video call app with sharable room links",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "agora",
+    "webrtc",
+    "video",
+    "call",
+    "express"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "agora-access-token": "^2.0.4",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "ngrok": "^5.0.0-beta.2"
+  }
+}

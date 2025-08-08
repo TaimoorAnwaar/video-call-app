@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agora Video Call</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="container">
+        <div id="home-view" class="card hidden" style="background: #121a2b; border: 1px solid #24304a; border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);">
+          <h1 style="color: #e8eefc;">Start a video call</h1>
+          <div class="actions" style="margin-bottom: 16px;">
+            <button id="create-room-btn" class="primary" style="background: linear-gradient(135deg, #5b8cfe, #7aa7ff); border: none; color: white; padding: 10px 16px; border-radius: 10px; font-weight: 600; cursor: pointer;">Create sharable link</button>
+          </div>
+          <div id="share-section" class="share hidden" style="margin-bottom: 16px;">
+            <label style="color: #7c8aa5;">Share this link:</label>
+            <div class="share-row" style="display: flex; gap: 8px; margin-top: 6px;">
+              <input id="room-link" readonly style="flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #24304a; background: #0b1220; color: #e8eefc;" />
+              <button id="copy-link-btn" style="background: #5b8cfe; border: none; color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer;">Copy</button>
+            </div>
+          </div>
+          <div class="or" style="text-align: center; color: #7c8aa5; margin: 16px 0;">or</div>
+          <div class="join-existing">
+            <label style="color: #7c8aa5;">Enter room ID</label>
+            <div class="share-row" style="display: flex; gap: 8px; margin-top: 6px;">
+              <input id="room-id-input" placeholder="e.g. care-abc123" style="flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #24304a; background: #0b1220; color: #e8eefc;" />
+              <button id="go-room-btn" style="background: #5b8cfe; border: none; color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer;">Go</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="room-view" class="card hidden" style="background: #121a2b; border: 1px solid #24304a; border-radius: 16px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.25);">
+          <div class="room-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div>
+              <h2 id="room-title" style="color: #e8eefc; margin: 0 0 6px 0;">Room</h2>
+              <div class="subtle" style="color: #7c8aa5; font-size: 0.9rem;">Share this link with patient/doctor to join the same room.</div>
+              <div class="share-row top" style="display: flex; gap: 8px; margin-top: 8px;">
+                <input id="room-link-2" readonly style="flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #24304a; background: #0b1220; color: #e8eefc;" />
+                <button id="copy-link-btn-2" style="background: #5b8cfe; border: none; color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer;">Copy</button>
+              </div>
+            </div>
+            <div>
+              <button id="leave-btn" class="danger hidden" style="background: #ff5d5d; border: none; color: white; padding: 10px 16px; border-radius: 10px; font-weight: 600; cursor: pointer;">Leave</button>
+            </div>
+          </div>
+
+          <div class="video-grid" style="display: flex; gap: 20px; justify-content: center; margin-bottom: 20px;">
+            <div class="video-card" style="background: #0b1220; border-radius: 12px; padding: 10px; flex: 1; min-width: 220px; max-width: 350px; display: flex; flex-direction: column; align-items: center;">
+              <div class="label" style="color: #7c8aa5; margin-bottom: 6px;">You</div>
+              <div id="local-player" class="video" style="width: 100%; aspect-ratio: 16/9; background: #24304a; border-radius: 8px;"></div>
+            </div>
+            <div class="video-card" style="background: #0b1220; border-radius: 12px; padding: 10px; flex: 1; min-width: 220px; max-width: 350px; display: flex; flex-direction: column; align-items: center;">
+              <div class="label" style="color: #7c8aa5; margin-bottom: 6px;">Remote</div>
+              <div id="remote-player" class="video" style="width: 100%; aspect-ratio: 16/9; background: #24304a; border-radius: 8px;"></div>
+            </div>
+          </div>
+
+          <div id="join-controls" class="controls" style="display: flex; align-items: center; gap: 12px;">
+            <button id="join-btn" class="primary" style="background: linear-gradient(135deg, #5b8cfe, #7aa7ff); border: none; color: white; padding: 10px 16px; border-radius: 10px; font-weight: 600; cursor: pointer;">Join</button>
+            <span id="status" class="subtle" style="color: #7c8aa5; font-size: 0.9rem;"></span>
+          </div>
+          
+          <div id="media-controls" class="controls hidden" style="display: flex; align-items: center; gap: 12px; margin-top: 12px;">
+            <button id="toggle-camera-btn" style="background: #5b8cfe; border: none; color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer;">Camera Off</button>
+            <button id="toggle-mic-btn" style="background: #5b8cfe; border: none; color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer;">Mic Off</button>
+            <button id="request-permissions-btn" style="background: #28a745; border: none; color: white; padding: 8px 12px; border-radius: 8px; cursor: pointer; display: none;">Enable Camera/Mic</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/agora-rtc-sdk-ng@4.20.2/AgoraRTC_N-4.20.2.js"></script>
+    <script src="./app.js?v=15"></script>
+  </body>
+  </html>
+
+
